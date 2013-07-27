@@ -4,6 +4,7 @@ use utf8;
 use Test::More;
 use Test::Pretty;
 use VendingMachine;
+use List::Util qw/first/;
 
 subtest 'newするとVendingMachineのインスタンスが返る' => sub {
     my $vm = VendingMachine->new;
@@ -63,5 +64,18 @@ subtest '払い戻しをすると現在の総計が返って来て、総計が0�
     is $vm->refund, 10, '現在の総計である10が返って来るか';
     is $vm->total, 0, '総計が0になったか';
 };
+
+subtest 'VendingMachineを作る時に初期状態としてジュースをセットできる' => sub {
+    use JuiceSet;
+    my $colas = JuiceSet->new(
+        name   => 'cola',
+        number => 5,
+        price  => 120
+    );
+    my $vm = VendingMachine->new([$colas]);
+
+    ok first { $_ eq 'cola' } @{ $vm->product_names }, 'juice_setにcolaがある';
+};
+
 
 done_testing;

@@ -14,9 +14,16 @@ our %IS_ALLOW_MONEY = map { $_ => 1 } qw(
 
 sub new {
     my $class = shift;
+    my $juice_set_array = shift;
+
+    my %product_set;
+    for my $juice_set (@{ $juice_set_array }) {
+        $product_set{$juice_set->name} = $juice_set;
+    }
 
     bless {
-        total => 0,
+        total       => 0,
+        product_set => \%product_set,
     }, $class;
 }
 
@@ -44,6 +51,13 @@ sub refund {
     $self->{total} = 0;
 
     $refund;
+}
+
+sub product_names {
+    my $self = shift;
+
+    my @keys = keys %{ $self->{product_set} };
+    \@keys;
 }
 
 1;
