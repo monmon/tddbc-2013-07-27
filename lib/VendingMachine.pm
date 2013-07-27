@@ -37,4 +37,13 @@ sub total {
     $self->{total};
 }
 
+sub refund {
+    my $self = shift;
+
+    my $refund = $self->{total};
+    $self->{total} = 0;
+
+    $refund;
+}
+
 1;
