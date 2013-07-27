@@ -20,13 +20,13 @@ sub new {
     }, $class;
 }
 
-sub input {
+sub receive {
     my $self = shift;
-    my $input = shift;
+    my $receive = shift;
 
-    return $input if !$IS_ALLOW_MONEY{$input};
+    return $receive if !$IS_ALLOW_MONEY{$receive};
 
-    $self->{total} += $input;
+    $self->{total} += $receive;
 
     $self;
 }
